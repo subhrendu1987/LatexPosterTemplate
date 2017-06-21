@@ -1,0 +1,129 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rendering LogicalFallacies infographics as 4xA4 pages PDF which can be
+% printed on normal printer and glued together. Before processing download
+% http://yourlogicalfallacyis.com/pdf/LogicalFallaciesInfographic_A1.pdf
+% and put in the same directory as this file. Then try
+%
+%    pdflatex logical_fallacies_for_a4.tex
+%
+% (but read below for possible margin tuning). After printing cut part
+% of the margins and glue together.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper]{article}
+\pagestyle{empty}
+\usepackage{graphicx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Calculation notes
+%
+% Original image (A1 version) has no margins and is 
+%     2383.94 x 1683.78 pts
+% (as for example pdfinfo promptly shows)
+% Quarter of it has size
+%     1191.97 x 841.89 pts
+% (and the same values denote mid-point of the image so appear below as 
+%  border points)
+%
+% A4 landscape page is 297 mm x 210 mm =  842 pt x 595 pt. Therefore
+% A4 page minus margin (which we here assume to be 28pt) is
+%   (842 - 2 * 28) x (595 - 2 * 28) pt =   786 * 539 pt
+%
+% Therefore the scaling ratios necessary to fit the image are:
+% (horizontal) 786 / 1191.97 = 0.6594...
+% (vertical)   539 / 841.89 = 0.6402...
+% To avoid skewing we take smaller of those, 0.64 (slightly rounding)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Page margin
+\newcommand{\pagemargin}{1mm} % about 1 cm, in points to make calcs easier
+
+% Scaling factor (see above how to calculate it with respect to margin)
+\newcommand{\scalingfactor}{.98}
+\newcommand{\filename}{conference_poster_4.pdf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Remaining code
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Set margins
+%\usepackage[a4paper,margin=\pagemargin,landscape]{geometry}
+\usepackage[a4paper,landscape,margin=\pagemargin]{geometry}
+
+	\addtolength{\oddsidemargin}{1mm}
+	\addtolength{\evensidemargin}{0mm}
+	\addtolength{\topmargin}{0mm}
+	%\addtolength{\textheight}{2mm}
+
+% Disable indents and skips
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+\begin{document}
+% Include all 4 quarters of the image, scaling them appropriately
+  \frame{
+    \includegraphics[
+    clip=true,
+    viewport=0mm 630mm 296mm 840mm,
+    scale=\scalingfactor
+    ]{\filename}
+  }
+  \newpage
+  \frame{
+    \includegraphics[
+    clip=true,
+    viewport=296mm 630mm 594mm 840mm,
+    scale=\scalingfactor
+    ]{\filename}
+  }
+  \newpage
+  %\frame{
+    \includegraphics[
+    clip=true,
+    viewport=0 420mm 296mm 630mm,
+    scale=\scalingfactor,
+    ]{\filename}
+  %}
+  \newpage
+  %\frame{
+    \includegraphics[
+    clip=true,
+    viewport=296mm 420mm 594mm 630mm,
+    scale=\scalingfactor
+    ]{\filename}
+  %}
+  \newpage
+    %%%%%%%%%%%%%%      EVEN page Left TOP LAYER END              %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %\frame{
+    \includegraphics[
+    clip=true,
+    viewport=0 210mm 296mm 420mm,
+    scale=\scalingfactor
+    ]{\filename}
+  %}
+  \newpage
+  %\frame{
+    \includegraphics[
+    clip=true,
+    viewport=296mm 210mm 594mm 420mm,
+    scale=\scalingfactor
+    ]{\filename}
+  %}
+  \newpage
+  %\frame{
+    \includegraphics[
+    clip=true,
+    viewport=0 0 296mm 210mm,
+    scale=\scalingfactor
+    ]{\filename}
+  %}
+  \newpage
+  %\frame{
+    \includegraphics[
+    clip=true,
+    viewport=296mm 0 594mm 210mm,
+    scale=\scalingfactor
+    ]{\filename}
+  %}
+  \newpage
+\end{document}
